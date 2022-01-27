@@ -1,6 +1,6 @@
 from rest_framework import viewsets, permissions
 
-from recipes.models import Recipe, Ingredient, Tag, User
+from recipes.models import Recipe, Ingredient, Tag, User, IngredientRecipe
 from .serializers import RecipeSerializer, IngredientSerializer, TagSerializer, UserSerializer
 from .permissions import IsAuthorOrReadOnlyPermission as P
 
@@ -9,6 +9,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
+
+
+class RecipeDownloadViewSet(viewsets.ModelViewSet):
+    pass
 
 
 class IngredientViewSet(viewsets.ModelViewSet):
