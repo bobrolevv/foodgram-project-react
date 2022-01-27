@@ -23,12 +23,12 @@ class TagSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        # fields = '__all__'
+        fields = '__all__'
         fields = (
-            "email",
-            "id",
+        #     "email",
+        #     "id",
             "username",
-            "first_name",
-            "last_name",
+        #     "first_name",
+        #     "last_name",
             # "is_subscribed",
         )
