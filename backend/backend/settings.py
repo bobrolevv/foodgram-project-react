@@ -146,6 +146,9 @@ REST_FRAMEWORK = {
 #     'SEND_ACTIVATION_EMAIL': 'True',
 #     'SERIALIZERS': {},
 # }
+DJOSER = {
+    'LOGIN_FIELD': 'email'
+}
 
 SIMPLE_JWT = {
    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
