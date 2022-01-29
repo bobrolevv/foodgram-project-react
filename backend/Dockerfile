@@ -10,5 +10,5 @@ COPY . .
 
 EXPOSE 8000
 
-#CMD python manage.py runserver 0:8000
-CMD gunicorn backend.wsgi -b 0:8000
+CMD python manage.py runserver 0:8000
+#CMD gunicorn backend.wsgi -b 0:8000
