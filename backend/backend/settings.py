@@ -26,7 +26,7 @@ SECRET_KEY = 'c%=er3&uj_^np(l@o1%hl0&s9xgllhvz6)v70mbn5njt+hwg^*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -125,7 +125,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+# STATICFILES_DIRS = (
+#     os.path.join(SITE_ROOT,'static'),
+#        )
+
+
+STATIC_ROOT = f'{BASE_DIR}/static'
 STATIC_URL = '/static/'
+# STATICFILES_DIRS = f'{BASE_DIR}/backend/assets'
+
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'),)
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -139,16 +150,15 @@ REST_FRAMEWORK = {
     ],
 }
 
-# DJOSER = {
+DJOSER = {
+    'LOGIN_FIELD': 'email'
 #     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
 #     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
 #     'ACTIVATION_URL': '#/activate/{uid}/{token}',
 #     'SEND_ACTIVATION_EMAIL': 'True',
 #     'SERIALIZERS': {},
-# }
-DJOSER = {
-    'LOGIN_FIELD': 'email'
 }
+
 
 SIMPLE_JWT = {
    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
