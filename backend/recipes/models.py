@@ -13,11 +13,11 @@ class Ingredient(models.Model):
         return f'{self.name}, {self.measurement_unit}'
 
 class Recipe(models.Model):
-    title = models.CharField(
+    name = models.CharField(
         max_length=256,
         verbose_name='Название рецепта'
     )
-    description = models.TextField()
+    text = models.TextField()
     cooking_time = models.PositiveIntegerField(
         verbose_name='Время приготовления (в минутах)',
     )
@@ -43,7 +43,7 @@ class Recipe(models.Model):
     )
 
     def __str__(self):
-        return f'{self.title}, t - {self.cooking_time} мин.'
+        return f'{self.name}, t - {self.cooking_time} мин.'
 
 
 class Subsription(models.Model):

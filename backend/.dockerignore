@@ -1,0 +1,9 @@
+**
+
+!api/
+!backend/
+!recipes/
+!static/
+!users/
+!manage.py
+!requirements.txt
