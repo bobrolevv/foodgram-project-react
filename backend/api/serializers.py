@@ -5,8 +5,14 @@ from recipes.models import Ingredient, Recipe, Tag, User
 class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
-        fields = '__all__'
+        # fields = '__all__'
+        fields = (
+            'id',
+            'tags',
+            'author',
+            'ingredients',
 
+        )
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,11 +30,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-        fields = (
+        # fields = (
         #     "email",
         #     "id",
-            "username",
+        #     "username",
         #     "first_name",
         #     "last_name",
             # "is_subscribed",
-        )
+        # )
