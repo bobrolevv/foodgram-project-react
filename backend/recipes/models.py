@@ -12,6 +12,19 @@ class Ingredient(models.Model):
     def __str__(self):
         return f'{self.name}, {self.measurement_unit}'
 
+
+class Tag(models.Model):
+    title = models.CharField(max_length=64)
+    slug = models.SlugField(max_length=64, unique=True)
+    hexcolor = models.CharField(max_length=7, default="#ffffff")
+
+    def colored_name(self):
+        return format_html('<span style="color: #{};">{}</span>', self.hexcolor, )
+
+    def __str__(self):
+        return f'{self.title}'
+
+
 class Recipe(models.Model):
     name = models.CharField(
         max_length=256,
@@ -27,7 +40,7 @@ class Recipe(models.Model):
         verbose_name='Ингредиенты'
     )
     tags = models.ManyToManyField(
-        'Tag',
+        Tag,
         blank=True,
         related_name='recipe'
     )
@@ -38,8 +51,13 @@ class Recipe(models.Model):
         verbose_name='Автор'
     )
     image = models.ImageField(
-        upload_to='recipes/images',
+        upload_to='assets/recipes/images',
         verbose_name='Картинка'
+    )
+    is_favorited = models.ManyToManyField(
+        User,
+        blank=True,
+        related_name='is_favorited'
     )
 
     def __str__(self):
@@ -50,8 +68,14 @@ class Subsription(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='subscribed_to',
+        related_name='is_subscribed',
         verbose_name='Подписчик'
+    )
+    author = models.ManyToManyField(
+        User,
+        blank=True,
+        related_name='author_recipe',
+        verbose_name='Автор рецепта'
     )
 
 
@@ -60,17 +84,6 @@ class IngredientRecipe(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     value = models.PositiveIntegerField()
 
-
-class Tag(models.Model):
-    title = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64, unique=True)
-    hexcolor = models.CharField(max_length=7, default="#ffffff")
-
-    def colored_name(self):
-        return format_html('<span style="color: #{};">{}</span>', self.hexcolor, )
-
-    def __str__(self):
-        return f'{self.title}'
 
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name_EN', 'hexcolor', 'colored_name')

@@ -1,5 +1,7 @@
 # praktikum_new_diplom
 
+django-admin startproject mysite
+
 pip freeze > requirements.txt
 pip install -r requirements.txt
 pip freeze > requirements.txt

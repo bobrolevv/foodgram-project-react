@@ -25,19 +25,19 @@ class TagViewSet(viewsets.ModelViewSet):
     serializer_class = TagSerializer
 
 
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
 
 
-class UserMeViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
+# class UserMeViewSet(viewsets.ReadOnlyModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
 
 
-class UserSPViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
+# class UserSPViewSet(viewsets.ReadOnlyModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#     permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)

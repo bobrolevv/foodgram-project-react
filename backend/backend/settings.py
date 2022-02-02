@@ -43,8 +43,8 @@ INSTALLED_APPS = [
     'recipes',
     'users',
     'rest_framework',
-    'rest_framework.authtoken',
-    'djoser',
+    # 'rest_framework.authtoken',
+    # 'djoser',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +77,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+# AUTH_USER_MODEL = 'users.User'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -132,35 +133,38 @@ USE_TZ = True
 
 STATIC_ROOT = f'{BASE_DIR}/static'
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = f'{BASE_DIR}/backend/assets'
+# STATICFILES_DIRS = f'{BASE_DIR}/assets'
 
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'),)
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-        # 'rest_framework.permissions.AllowAny'
-    ],
-
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2,
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+#         'rest_framework.permissions.AllowAny'
+#     ],
+#
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.TokenAuthentication',
+#         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ],
 }
+#
+# DJOSER = {
+#     'LOGIN_FIELD': 'email'
+# #     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+# #     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+# #     'ACTIVATION_URL': '#/activate/{uid}/{token}',
+# #     'SEND_ACTIVATION_EMAIL': 'True',
+# #     'SERIALIZERS': {},
+# }
 
-DJOSER = {
-    'LOGIN_FIELD': 'email'
-#     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-#     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-#     'ACTIVATION_URL': '#/activate/{uid}/{token}',
-#     'SEND_ACTIVATION_EMAIL': 'True',
-#     'SERIALIZERS': {},
-}
 
+# SIMPLE_JWT = {
+#    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
+#    'AUTH_HEADER_TYPES': ('Bearer',),
+# }
 
-SIMPLE_JWT = {
-   'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
-   'AUTH_HEADER_TYPES': ('Bearer',),
-}
