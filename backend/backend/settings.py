@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     'recipes',
     'users',
     'rest_framework',
-    # 'rest_framework.authtoken',
-    # 'djoser',
+    'django_filters',
+    'rest_framework.authtoken',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -141,27 +142,23 @@ STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 2,
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-#         'rest_framework.permissions.AllowAny'
-#     ],
-#
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework.authentication.TokenAuthentication',
-#         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     ],
-}
-#
-# DJOSER = {
-#     'LOGIN_FIELD': 'email'
-# #     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-# #     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-# #     'ACTIVATION_URL': '#/activate/{uid}/{token}',
-# #     'SEND_ACTIVATION_EMAIL': 'True',
-# #     'SERIALIZERS': {},
-# }
+    'PAGE_SIZE': 6,
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.AllowAny'
+    ],
 
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+
+DJOSER = {
+    # 'LOGIN_FIELD': 'email',
+    # "PERMISSIONS": "user_list": ["djoser.permissions.AllowAny"],
+}
 
 # SIMPLE_JWT = {
 #    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),

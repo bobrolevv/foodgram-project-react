@@ -1,13 +1,18 @@
-from rest_framework import viewsets, permissions
+from recipes.models import Recipe, Ingredient, Tag, User
+from rest_framework import viewsets, permissions, filters
+from rest_framework.pagination import PageNumberPagination
 
-from recipes.models import Recipe, Ingredient, Tag, User, IngredientRecipe
-from .serializers import RecipeSerializer, IngredientSerializer, TagSerializer, UserSerializer
 from .permissions import IsAuthorOrReadOnlyPermission as P
-
+from .serializers import RecipeSerializer, IngredientSerializer, TagSerializer, CustomUserSerializer
+from djoser.views import UserViewSet
 
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+    pagination_class = PageNumberPagination
+    filter_backends = (filters.OrderingFilter,)
+    ordering_fields = ('pub_date',)
+    ordering = ('-pub_date',)
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
 
 
@@ -18,17 +23,27 @@ class RecipeDownloadViewSet(viewsets.ModelViewSet):
 class IngredientViewSet(viewsets.ModelViewSet):
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
+    pagination_class = None
 
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+    pagination_class = None
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class CustomUserViewSet(UserViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = CustomUserSerializer
+    pagination_class = PageNumberPagination
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
+
+    def permission_denied(self, request, **kwargs):
+        if (request.user.is_authenticated
+            and self.action in ["update", "partial_update", "retrieve"]
+        ):
+            raise
+        super().permission_denied(request, **kwargs)
 
 
 # class UserMeViewSet(viewsets.ReadOnlyModelViewSet):

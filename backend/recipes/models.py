@@ -14,9 +14,9 @@ class Ingredient(models.Model):
 
 
 class Tag(models.Model):
-    title = models.CharField(max_length=64)
+    name = models.CharField(max_length=64)
+    color = models.CharField(max_length=7, default="#ffffff")
     slug = models.SlugField(max_length=64, unique=True)
-    hexcolor = models.CharField(max_length=7, default="#ffffff")
 
     def colored_name(self):
         return format_html('<span style="color: #{};">{}</span>', self.hexcolor, )
@@ -59,6 +59,10 @@ class Recipe(models.Model):
         blank=True,
         related_name='is_favorited'
     )
+    pub_date = models.DateTimeField(
+        'Дата публикации',
+        auto_now_add=True
+    )
 
     def __str__(self):
         return f'{self.name}, t - {self.cooking_time} мин.'
@@ -77,6 +81,21 @@ class Subsription(models.Model):
         related_name='author_recipe',
         verbose_name='Автор рецепта'
     )
+
+
+# class Favorites(models.Model):
+#     user = models.ForeignKey(
+#         User,
+#         on_delete=models.CASCADE,
+#         related_name='favorit_recipes',
+#         verbose_name='Подписчик'
+#     )
+#     recipe = models.ManyToManyField(
+#         Recipe,
+#         blank=True,
+#         related_name='author_recipe',
+#         verbose_name='Автор рецепта'
+#     )
 
 
 class IngredientRecipe(models.Model):
