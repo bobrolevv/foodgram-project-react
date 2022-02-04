@@ -156,8 +156,9 @@ REST_FRAMEWORK = {
 
 
 DJOSER = {
-    # 'LOGIN_FIELD': 'email',
-    # "PERMISSIONS": "user_list": ["djoser.permissions.AllowAny"],
+    'LOGIN_FIELD': 'email',
+    "PERMISSIONS": {'user_list': ['rest_framework.permissions.AllowAny',] },
+    'SERIALIZERS': {'user': 'api.serializers.SpecialUserSerializer', }
 }
 
 # SIMPLE_JWT = {

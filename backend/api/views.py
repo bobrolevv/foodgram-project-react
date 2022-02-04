@@ -3,7 +3,7 @@ from rest_framework import viewsets, permissions, filters
 from rest_framework.pagination import PageNumberPagination
 
 from .permissions import IsAuthorOrReadOnlyPermission as P
-from .serializers import RecipeSerializer, IngredientSerializer, TagSerializer, CustomUserSerializer
+from .serializers import RecipeSerializer, IngredientSerializer, TagSerializer, UserSerializer
 from djoser.views import UserViewSet
 
 class RecipeViewSet(viewsets.ModelViewSet):
@@ -32,11 +32,11 @@ class TagViewSet(viewsets.ModelViewSet):
     pagination_class = None
 
 
-class CustomUserViewSet(UserViewSet):
+class UserViewSet(UserViewSet):
     queryset = User.objects.all()
-    serializer_class = CustomUserSerializer
+    serializer_class = UserSerializer
     pagination_class = PageNumberPagination
-    # permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
 
     def permission_denied(self, request, **kwargs):
         if (request.user.is_authenticated

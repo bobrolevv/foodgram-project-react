@@ -11,7 +11,7 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CustomUserCreateSerializer(UserCreateSerializer):
+class SpecialUserCreateSerializer(UserCreateSerializer):
     class Meta:
         model = User
         fields = (
@@ -22,7 +22,7 @@ class CustomUserCreateSerializer(UserCreateSerializer):
         )
 
 
-class CustomUserSerializer(UserSerializer):
+class SpecialUserSerializer(UserSerializer):
     class Meta:
         model = User
         fields = (
