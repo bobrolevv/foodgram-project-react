@@ -51,7 +51,7 @@ class Recipe(models.Model):
         verbose_name='Автор'
     )
     image = models.ImageField(
-        upload_to='assets/recipes/images',
+        upload_to='img/recipes/',
         verbose_name='Картинка'
     )
     is_favorited = models.ManyToManyField(

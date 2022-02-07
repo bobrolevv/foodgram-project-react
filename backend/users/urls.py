@@ -7,8 +7,10 @@ router = DefaultRouter()
 router.register(r'sub', SubsriptionViewSet, basename='sub',)
 
 urlpatterns = [
-    path('', include('djoser.urls')),
-    path('auth/', include('djoser.urls.authtoken')),
-    path('', include(router.urls)),
+
+    # path('', include('djoser.urls')),
+    # # path('', include(router.urls)),
+    # path('auth/', include('djoser.urls.authtoken')),
+
 
 ]

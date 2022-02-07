@@ -4,6 +4,7 @@
 !backend/
 !recipes/
 !static/
+!media/
 !users/
 !manage.py
 !requirements.txt

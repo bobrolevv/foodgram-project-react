@@ -21,6 +21,7 @@ class Command(BaseCommand):
             Recipe.objects.get_or_create(
                 name=f'Простой рецепт{i}',
                 text=f'Описание этого рецепта {i}',
+                image='/img/recipes/1620120965_28-phonoteka_org-p-obed-fon-42_I8sBQcf.jpg',
                 cooking_time=i,
                 author=author
             )

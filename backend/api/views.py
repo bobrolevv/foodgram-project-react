@@ -32,27 +32,3 @@ class TagViewSet(viewsets.ModelViewSet):
     pagination_class = None
 
 
-# class UserViewSet(UserViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-#     pagination_class = PageNumberPagination
-#     permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
-#
-#     def permission_denied(self, request, **kwargs):
-#         if (request.user.is_authenticated
-#             and self.action in ["update", "partial_update", "retrieve"]
-#         ):
-#             raise
-#         super().permission_denied(request, **kwargs)
-
-
-# class UserMeViewSet(viewsets.ReadOnlyModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-    # permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
-
-
-# class UserSPViewSet(viewsets.ReadOnlyModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-#     permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)

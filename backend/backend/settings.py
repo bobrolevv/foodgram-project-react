@@ -127,17 +127,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-# STATICFILES_DIRS = (
-#     os.path.join(SITE_ROOT,'static'),
-#        )
 
 
 STATIC_ROOT = f'{BASE_DIR}/static'
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = f'{BASE_DIR}/assets'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'assets'),)
 
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = (os.path.join(BASE_DIR, 'media'),)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 
 
 REST_FRAMEWORK = {
@@ -157,9 +155,9 @@ REST_FRAMEWORK = {
 
 DJOSER = {
     'LOGIN_FIELD': 'email',
-    "PERMISSIONS": {'user_list': ['rest_framework.permissions.AllowAny',] },
-    'SERIALIZERS': {'user': 'api.serializers.SpecialUserSerializer',
-                    'user_create': 'api.serializers.SpecialUserCreateSerializer', }
+    "PERMISSIONS": {'user_list': ['rest_framework.permissions.AllowAny']},
+    'SERIALIZERS': {'user': 'users.serializers.SpecialUserSerializer',
+                    'user_create': 'users.serializers.SpecialUserCreateSerializer', }
 }
 
 # SIMPLE_JWT = {

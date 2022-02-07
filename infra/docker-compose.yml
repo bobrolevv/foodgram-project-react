@@ -8,6 +8,16 @@ services:
     volumes:
       - ../frontend/:/app/result_build/
 
+  web:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
+
   nginx:
     image: nginx:1.19.3
     ports:
@@ -17,15 +27,11 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ../frontend/build:/usr/share/nginx/html/
       - ../docs/:/usr/share/nginx/html/api/docs/
-      - ../backend/static:/var/html/back_static/
+      - ./static:/var/html/djando/1
+      - ./media:/var/html/django/2
+    depends_on:
+      - web
 
-  web:
-    build:
-      context: ../backend
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-
-volumes:
-  static_value:
-  media_value:
+#volumes:
+#  static_value:
+#  media_value:
