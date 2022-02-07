@@ -23,6 +23,20 @@ class SpecialUserCreateSerializer(UserCreateSerializer):
         )
 
 
+# class SpecialUserSerializer(UserSerializer):
+#     class Meta:
+#         model = User
+#         fields = (
+#             "email",
+#             "id",
+#             "username",
+#             "first_name",
+#             "last_name",
+#             "is_subscribed",
+#         )
+
+
+        #####
 class SpecialUserSerializer(UserSerializer):
     class Meta:
         model = User
@@ -34,6 +48,17 @@ class SpecialUserSerializer(UserSerializer):
             "last_name",
             "is_subscribed",
         )
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+        ####
 
 
 class AuthorRecipeSerializer(serializers.ModelSerializer):
