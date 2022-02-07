@@ -4,7 +4,7 @@ from rest_framework.pagination import PageNumberPagination
 
 from .permissions import IsAuthorOrReadOnlyPermission as P
 from .serializers import RecipeSerializer, IngredientSerializer, TagSerializer, UserSerializer
-from djoser.views import UserViewSet
+# from djoser.views import UserViewSet
 
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()

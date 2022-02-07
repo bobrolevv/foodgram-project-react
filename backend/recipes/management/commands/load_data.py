@@ -32,7 +32,7 @@ class Command(BaseCommand):
                 first_name=f'first_{i}',
                 last_name=f'last_{i}',
                 email=f'user_{i}@m.ru',
-                password='123',
+                password='user123456789',
             )
         print(f'add {i} users')
 
