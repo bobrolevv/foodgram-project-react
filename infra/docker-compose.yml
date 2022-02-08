@@ -8,15 +8,28 @@ services:
     volumes:
       - ../frontend/:/app/result_build/
 
+  db:
+    image: postgres:14.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ".env"
+    depends_on:
+      - frontend
+
   web:
     build:
       context: ../backend
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    volumes:
-      - ./static:/app/static
-      - ./media:/app/media
+    depends_on:
+      - db
+    env_file:
+        - ".env"
+#    volumes:
+#      - ./static:/app/static
+#      - ./media:/app/media
 
   nginx:
     image: nginx:1.19.3
@@ -27,11 +40,13 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - ../frontend/build:/usr/share/nginx/html/
       - ../docs/:/usr/share/nginx/html/api/docs/
-      - ./static:/var/html/djando/1
-      - ./media:/var/html/django/2
+      - ../backend/static:/var/html/djando/static/
+      - ../backend/media:/var/html/django/media/
     depends_on:
       - web
 
-#volumes:
+volumes:
 #  static_value:
 #  media_value:
+  postgres_data:
+
