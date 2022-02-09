@@ -11,11 +11,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECRET_KEY = 'c%=er3&uj_^np(l@o1%hl0&s9xgllhvz6)v70mbn5njt+hwg^*'
 SECRET_KEY = os.environ.get('SECRET_KEY', default='c%=er3&uj_^np(l@o1%hl0&s9xgllhvz6)v70mbn5njt+hwg^*')
 
-# DEBUG = True
-DEBUG = os.environ.get("DEBUG", default=False)
-
-# ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', default='*').split(',')
+DEBUG = True
+# DEBUG = os.environ.get("DEBUG", default=False)
+#
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', default='*').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -79,8 +79,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
-        'NAME': os.environ.get('POSTGRES_DB', default='yam_db'),
-        'USER': os.environ.get('POSTGRES_USER', default='postgres1'),
+        'NAME': os.environ.get('POSTGRES_DB', default='foodgrm_db'),
+        'USER': os.environ.get('POSTGRES_USER', default='postgres'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='postgres'),
         'HOST': os.environ.get('DB_HOST', default='db'),
         'PORT': os.environ.get('DB_PORT', default='5432'),
