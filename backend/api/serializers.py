@@ -11,9 +11,6 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
-
-
 class AuthorRecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

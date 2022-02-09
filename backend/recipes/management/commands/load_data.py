@@ -16,17 +16,6 @@ class Command(BaseCommand):
                 Ingredient.objects.get_or_create(name=name, measurement_unit=unit)
             print(f'add {Ingredient.objects.count()} ingredients')
 
-        author = User.objects.get(id='1')
-        for i in range(20):
-            Recipe.objects.get_or_create(
-                name=f'Простой рецепт{i}',
-                text=f'Описание этого рецепта {i}',
-                image='/img/recipes/1620120965_28-phonoteka_org-p-obed-fon-42_I8sBQcf.jpg',
-                cooking_time=i,
-                author=author
-            )
-        print(f'add {i} recipes')
-
         for i in range(User.objects.count(), User.objects.count() + 10):
             User.objects.get_or_create(
                 username=f'user_{i}',
@@ -37,3 +26,13 @@ class Command(BaseCommand):
             )
         print(f'add {i} users')
 
+        author = User.objects.get(id='2')
+        for i in range(20):
+            Recipe.objects.get_or_create(
+                name=f'Простой рецепт{i}',
+                text=f'Описание этого рецепта {i}',
+                image='/img/recipes/1620120965_28-phonoteka_org-p-obed-fon-42_I8sBQcf.jpg',
+                cooking_time=i,
+                author=author
+            )
+        print(f'add {i} recipes')

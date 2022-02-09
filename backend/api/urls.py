@@ -7,14 +7,15 @@ from .views import (RecipeViewSet,
                     IngredientViewSet,
                     )
 
-from users.views import SubsriptionViewSet
+from users.views import SubsriptionViewSet, SubsribeViewSet
 
 router = DefaultRouter()
 router.register(r'recipes', RecipeViewSet, basename='recipes',)
 router.register(r'recipes/download_shopping_cart', RecipeDownloadViewSet, basename='recipes_download',)
 router.register(r'tags', TagViewSet, basename='tags',)
 router.register(r'ingredients', IngredientViewSet, basename='ingredients',)
-router.register(r'users/sub', SubsriptionViewSet, basename='ingredients',)
+router.register('users/subscriptions', SubsriptionViewSet, basename='subscriptions',)
+router.register('users/<id>/subscribe', SubsribeViewSet, basename='subscribe',)
 
 
 urlpatterns = [

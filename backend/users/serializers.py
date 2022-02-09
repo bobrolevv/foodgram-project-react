@@ -56,13 +56,15 @@ class SpecialUserSerializer(UserSerializer):
 
 
 class SubsriptionSerializer(serializers.ModelSerializer):
-    user = SpecialUserSerializer(read_only=True)
-
-    author = SpecialUserSerializer(many=True, read_only=True)
+    # user = SpecialUserSerializer(read_only=True)
+    author = SpecialUserSerializer(read_only=True)
 
     class Meta:
         model = Subsription
-        fields = ('user', 'author')
+        fields = (
+            # 'user',
+            'author',
+        )
 
 
 # class FollowSerializer(serializers.ModelSerializer):

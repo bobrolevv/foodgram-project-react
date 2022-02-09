@@ -8,14 +8,14 @@ services:
     volumes:
       - ../frontend/:/app/result_build/
 
-  db:
-    image: postgres:14.1 #-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ".env"
-    depends_on:
-      - frontend
+#  db:
+#    image: postgres:14.1 #-alpine
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data/
+#    env_file:
+#      - ".env"
+#    depends_on:
+#      - frontend
 
   web:
     build:
@@ -24,7 +24,8 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+#      - db
+      - frontend
     env_file:
         - ".env"
 #    volumes:

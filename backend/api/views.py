@@ -13,7 +13,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.OrderingFilter,)
     ordering_fields = ('pub_date',)
     ordering = ('-pub_date',)
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly, P)
 
 
 class RecipeDownloadViewSet(viewsets.ModelViewSet):

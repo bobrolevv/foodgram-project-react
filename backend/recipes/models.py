@@ -75,12 +75,33 @@ class Subsription(models.Model):
         related_name='is_subscribed',
         verbose_name='Подписчик'
     )
-    author = models.ManyToManyField(
+    author = models.ForeignKey(
         User,
-        blank=True,
+        on_delete=models.CASCADE,
         related_name='author_recipe',
         verbose_name='Автор рецепта'
     )
+
+    def __str__(self):
+        return f'{self.user} подписан на {self.author}'
+
+
+class AuthorRecipes(models.Model):
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        # related_name='recipes',
+        # verbose_name='Рецепты автора'
+    )
+    recipes = models.ManyToManyField(
+        Recipe,
+        blank=True,
+        # related_name='authors',
+        # verbose_name='Автор рецепта'
+    )
+
+    def __str__(self):
+        return f'{self.author} автор рецепта(ов): {self.recipes}'
 
 
 # class Favorites(models.Model):
