@@ -5,21 +5,17 @@ from rest_framework.pagination import PageNumberPagination
 
 from api.permissions import IsAuthorOrReadOnlyPermission as P
 from .serializers import SubsriptionSerializer
-# from djoser.views import UserViewSet
 
-# class SubsriptionViewSet(viewsets.ModelViewSet):
-#     queryset = Subsription.objects.all()
-#     serializer_class = SubsriptionSerializer
 
 class SubsribeViewSet(viewsets.ModelViewSet):
     pass
+
 
 class SubsriptionViewSet(CreateModelMixin,
                     ListModelMixin,
                     viewsets.GenericViewSet):
     serializer_class = SubsriptionSerializer
     filter_backends = [filters.SearchFilter]
-    # search_fields = ['user__username', 'author__username']
     search_fields = ['user__username', 'author__username']
 
     def perform_create(self, serializer):
@@ -28,7 +24,6 @@ class SubsriptionViewSet(CreateModelMixin,
     def get_queryset(self):
         queryset = Subsription.objects.all()
         user = self.request.user
-        # return queryset.filter(author=user)
         return queryset.filter(user=user)
 
 

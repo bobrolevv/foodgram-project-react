@@ -43,7 +43,6 @@ class UserRecipeSerializer(UserSerializer):
         )
 
 
-#####
 class SpecialUserSerializer(UserSerializer):
     class Meta:
         model = User
@@ -65,7 +64,6 @@ class SpecialUserSerializer(UserSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
-######
 
 
 class SubsriptionSerializer(serializers.ModelSerializer):
