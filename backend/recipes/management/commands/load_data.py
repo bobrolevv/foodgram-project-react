@@ -2,7 +2,7 @@ import csv
 
 from django.core.management.base import BaseCommand
 
-from recipes.models import Ingredient, Recipe, User
+from recipes.models import Ingredient, Recipe, User, Subsription
 
 class Command(BaseCommand):
     help = 'Load ingredient data to DB'
@@ -26,8 +26,8 @@ class Command(BaseCommand):
             )
         print(f'add {i} users')
 
-        author = User.objects.get(id='2')
-        for i in range(20):
+        for i in range(9):
+            author = User.objects.get(id=f'{i+1}')
             Recipe.objects.get_or_create(
                 name=f'Простой рецепт{i}',
                 text=f'Описание этого рецепта {i}',
@@ -36,3 +36,12 @@ class Command(BaseCommand):
                 author=author
             )
         print(f'add {i} recipes')
+
+        user = User.objects.get(id='1')
+        for i in range(5):
+            author = User.objects.get(id=f'{i+1}')
+            Subsription.objects.get_or_create(
+                user=user,
+                author=author
+            )
+        print(f'add {i} subsriptions')

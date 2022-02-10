@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from djoser.serializers import UserSerializer, UserCreateSerializer
-from recipes.models import Subsription
+from recipes.models import Subsription, Recipe
 from api.serializers import AuthorRecipeSerializer
 from recipes.models import User
 
@@ -17,17 +17,30 @@ class SpecialUserCreateSerializer(UserCreateSerializer):
         )
 
 
-# class SpecialUserSerializer(UserSerializer):
-#     class Meta:
-#         model = User
-#         fields = (
-#             "email",
-#             "id",
-#             "username",
-#             "first_name",
-#             "last_name",
-#             "is_subscribed",
-#         )
+class SubsriptionRecipeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = (
+            "id",
+            "name",
+            "image",
+            "cooking_time",
+        )
+
+class UserRecipeSerializer(UserSerializer):
+    recipes = SubsriptionRecipeSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "is_subscribed",
+            'recipes'
+        )
 
 
 #####
@@ -56,8 +69,7 @@ class SpecialUserSerializer(UserSerializer):
 
 
 class SubsriptionSerializer(serializers.ModelSerializer):
-    # user = SpecialUserSerializer(read_only=True)
-    author = SpecialUserSerializer(read_only=True)
+    author = UserRecipeSerializer(read_only=True)
 
     class Meta:
         model = Subsription
