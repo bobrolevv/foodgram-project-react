@@ -102,7 +102,7 @@ class RecipeDownloadViewSet(viewsets.ModelViewSet):
     pass
 
 
-class IngredientViewSet(viewsets.ModelViewSet):
+class IngredientsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
@@ -112,7 +112,7 @@ class IngredientViewSet(viewsets.ModelViewSet):
 
 
 
-class TagViewSet(viewsets.ModelViewSet):
+class TagsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)
     queryset = Tag.objects.all()
     serializer_class = TagSerializer

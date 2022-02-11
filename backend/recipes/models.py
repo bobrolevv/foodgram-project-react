@@ -5,6 +5,7 @@ from django.db import models
 
 User = get_user_model()
 
+
 class Ingredient(models.Model):
     name = models.CharField(
         max_length=256,
@@ -140,17 +141,17 @@ class IngredientRecipe(models.Model):
         ]
 
 
-class Favorites(models.Model):
+class Favorite(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='Подписчик'
+        verbose_name='Пользователь',
     )
-    recipe = models.ManyToManyField(
+    recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='Избранное',
-        verbose_name='Рцепт'
+        related_name='favorites',
+        verbose_name='Рецепт',
     )
 
     class Meta:
@@ -158,9 +159,8 @@ class Favorites(models.Model):
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранные'
         constraints = [
-            models.UniqueConstraint(
-                fields=['user', 'recipe'],
-                name='unique favorite recipe for user')
+            models.UniqueConstraint(fields=['user', 'recipe'],
+                                    name='unique favorite recipe for user')
         ]
 
 

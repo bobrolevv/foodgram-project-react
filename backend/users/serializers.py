@@ -1,10 +1,10 @@
-from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from djoser.serializers import UserSerializer, UserCreateSerializer
-from recipes.models import Subsription, Recipe
-from api.serializers import AuthorRecipeSerializer
-from recipes.models import User
-#
-# User = get_user_model()
+from recipes.models import Recipe
+from rest_framework import serializers
+
+User = get_user_model()
+
 
 class SpecialUserCreateSerializer(UserCreateSerializer):
     class Meta:
@@ -27,6 +27,7 @@ class SubsriptionRecipeSerializer(serializers.ModelSerializer):
             "image",
             "cooking_time",
         )
+
 
 class UserRecipeSerializer(UserSerializer):
     recipes = SubsriptionRecipeSerializer(many=True, read_only=True)
@@ -67,46 +68,17 @@ class SpecialUserSerializer(UserSerializer):
         return user
 
 
-class SubsriptionSerializer(serializers.ModelSerializer):
-    author = UserRecipeSerializer(read_only=True)
-
-    class Meta:
-        model = Subsription
-        # model = User
-
-        # fields = '__all__'
-        fields = (
-            # 'username',
-            'author',
-            # 'is_subscribed',
-            # 'author_recipe',
-        )
-
-# class FollowSerializer(serializers.ModelSerializer):
-#     user = serializers.SlugRelatedField(
-#         queryset=User.objects.all(),
-#         slug_field='username',
-#         default=serializers.CurrentUserDefault(),
-#     )
-#     following = serializers.SlugRelatedField(
-#         queryset=User.objects.all(),
-#         slug_field='username',
-#     )
+# class SubsriptionSerializer(serializers.ModelSerializer):
+#     author = UserRecipeSerializer(read_only=True)
 #
 #     class Meta:
-#         fields = ('user', 'following',)
-#         model = Follow
+#         model = Subsription
+#         # model = User
 #
-#         validators = [
-#             UniqueTogetherValidator(
-#                 queryset=Follow.objects.all(),
-#                 fields=['user', 'following'],
-#                 message='подписка уже существует',
-#             )
-#         ]
-#
-#     def validate(self, data):
-#         if data['user'] == data['following']:
-#             raise serializers.ValidationError(
-#                 'Нельзя подписаться на себя!')
-#         return data
+#         # fields = '__all__'
+#         fields = (
+#             # 'username',
+#             'author',
+#             # 'is_subscribed',
+#             # 'author_recipe',
+#         )
