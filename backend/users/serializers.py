@@ -3,7 +3,8 @@ from djoser.serializers import UserSerializer, UserCreateSerializer
 from recipes.models import Subsription, Recipe
 from api.serializers import AuthorRecipeSerializer
 from recipes.models import User
-
+#
+# User = get_user_model()
 
 class SpecialUserCreateSerializer(UserCreateSerializer):
     class Meta:
@@ -35,10 +36,10 @@ class UserRecipeSerializer(UserSerializer):
         fields = (
             "email",
             "id",
-            "username",
+            # "username",
             "first_name",
             "last_name",
-            "is_subscribed",
+            # "is_subscribed",
             'recipes'
         )
 
@@ -71,11 +72,15 @@ class SubsriptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subsription
-        fields = (
-            # 'user',
-            'author',
-        )
+        # model = User
 
+        # fields = '__all__'
+        fields = (
+            # 'username',
+            'author',
+            # 'is_subscribed',
+            # 'author_recipe',
+        )
 
 # class FollowSerializer(serializers.ModelSerializer):
 #     user = serializers.SlugRelatedField(
