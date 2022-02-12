@@ -98,9 +98,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
             'errors': 'Рецепт уже удален'
         }, status=status.HTTP_400_BAD_REQUEST)
 
-class RecipeDownloadViewSet(viewsets.ModelViewSet):
-    pass
-
 
 class IngredientsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)
@@ -111,11 +108,11 @@ class IngredientsViewSet(viewsets.ModelViewSet):
     pagination_class = None
 
 
-
 class TagsViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     pagination_class = None
+
 
 
