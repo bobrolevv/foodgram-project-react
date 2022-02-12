@@ -133,3 +133,4 @@ dmypy.json
 /backend/static/
 /_ignor/
 /backend/media/
+/backend/_ignor/

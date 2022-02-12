@@ -215,6 +215,3 @@ class Follow(models.Model):
             )
         ]
 
-
-class IngredientAdmin(admin.ModelAdmin):
-    list_display = ('name_EN', 'hexcolor', 'colored_name')
