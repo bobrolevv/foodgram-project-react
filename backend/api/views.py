@@ -1,6 +1,8 @@
+from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-from recipes.models import (Recipe, Ingredient, Tag, Favorite, Cart, IngredientRecipe)
+from recipes.models import (Recipe, Ingredient, Tag, Favorite,
+                            Cart, IngredientRecipe)
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
@@ -26,10 +28,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
-    @action(detail=True, methods=['get', 'delete'],
+    @action(detail=True, methods=['get', 'post', 'delete'],
             permission_classes=[IsAuthenticated])
     def favorite(self, request, pk=None):
-        if request.method == 'GET':
+        if request.method == 'POST':
             return self.add_obj(Favorite, request.user, pk)
         elif request.method == 'DELETE':
             return self.delete_obj(Favorite, request.user, pk)
@@ -47,33 +49,47 @@ class RecipeViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'],
             permission_classes=[IsAuthenticated])
     def download_shopping_cart(self, request):
-        final_list = {}
+        # final_list = {}
+        # ingredients = IngredientRecipe.objects.filter(
+        #     recipe__cart__user=request.user).values_list(
+        #     'ingredient__name', 'ingredient__measurement_unit',
+        #     'amount')
+        # for item in ingredients:
+        #     name = item[0]
+        #     if name not in final_list:
+        #         final_list[name] = {
+        #             'measurement_unit': item[1],
+        #             'amount': item[2]
+        #         }
+        #     else:
+        #         final_list[name]['amount'] += item[2]
+
         ingredients = IngredientRecipe.objects.filter(
-            recipe__cart__user=request.user).values_list(
+            recipe__cart__user=request.user
+                    ).values_list(
             'ingredient__name', 'ingredient__measurement_unit',
-            'amount')
-        for item in ingredients:
-            name = item[0]
-            if name not in final_list:
-                final_list[name] = {
-                    'measurement_unit': item[1],
-                    'amount': item[2]
-                }
-            else:
-                final_list[name]['amount'] += item[2]
+            'amount'
+                    ).annotate(
+            ingredients_amount=Sum('ings_in_recipe__amount'))
+
         pdfmetrics.registerFont(
             TTFont('Slimamif', 'Slimamif.ttf', 'UTF-8'))
         response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = ('attachment; '
-                                           'filename="shopping_list.pdf"')
+        response['Content-Disposition'] = (
+            'attachment; filename="shopping_list.pdf"')
         page = canvas.Canvas(response)
         page.setFont('Slimamif', size=24)
         page.drawString(200, 800, 'Список ингредиентов')
         page.setFont('Slimamif', size=16)
         height = 750
-        for i, (name, data) in enumerate(final_list.items(), 1):
-            page.drawString(75, height, (f'<{i}> {name} - {data["amount"]}, '
-                                         f'{data["measurement_unit"]}'))
+
+        # for i, (name, data) in enumerate(final_list.items(), 1):
+        #     page.drawString(75, height, (f'<{i}> {name} - {data["amount"]}, '
+        #                                  f'{data["measurement_unit"]}'))
+        #     height -= 25
+
+        for item in ingredients:
+            page.drawString(75, height, (f'{item[0]}: {item[2]} {item[1]}'))
             height -= 25
         page.showPage()
         page.save()

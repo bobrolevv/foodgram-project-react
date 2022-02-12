@@ -1,5 +1,4 @@
 import os
-from datetime import timedelta
 
 from dotenv import dotenv_values, load_dotenv
 
@@ -8,14 +7,11 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECRET_KEY = 'c%=er3&uj_^np(l@o1%hl0&s9xgllhvz6)v70mbn5njt+hwg^*'
 SECRET_KEY = os.environ.get('SECRET_KEY', default='c%=er3&uj_^np(l@o1%hl0&s9xgllhvz6)v70mbn5njt+hwg^*')
 
-DEBUG = True
-# DEBUG = os.environ.get("DEBUG", default=False)
-#
-ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', default='*').split(',')
+DEBUG = os.environ.get("DEBUG", default=False)
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', default='*').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -86,9 +82,6 @@ DATABASES = {
 # }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -104,10 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/2.2/topics/i18n/
-
 LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
@@ -117,11 +106,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-
 
 
 STATIC_ROOT = f'{BASE_DIR}/static'

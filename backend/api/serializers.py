@@ -1,8 +1,9 @@
 from django.shortcuts import get_object_or_404
 from drf_extra_fields.fields import Base64ImageField
-from recipes.models import Ingredient, IngredientRecipe, Recipe, Tag, Follow
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
+
+from recipes.models import Ingredient, IngredientRecipe, Recipe, Tag, Follow
 from users.serializers import SpecialUserSerializer
 
 
@@ -71,24 +72,34 @@ class RecipeSerializer(serializers.ModelSerializer):
             cart__user=user, id=obj.id).exists()
 
     def validate(self, data):
-        ingredients = self.initial_data.get('ingredients')
+        ingredients = self.data.get('ingredients')
         if not ingredients:
-            raise serializers.ValidationError({
-                'ingredients': 'Нужен хоть один ингридиент для рецепта'})
+            raise serializers.ValidationError(
+                {'ingredients': 'Нужен хоть один ингредиент для рецепта'})
         ingredient_list = []
         for ingredient_item in ingredients:
-            ingredient = get_object_or_404(Ingredient,
-                                           id=ingredient_item['id'])
+            ingredient = get_object_or_404(
+                Ingredient, id=ingredient_item['id'])
             if ingredient in ingredient_list:
-                raise serializers.ValidationError('Ингридиенты должны '
-                                                  'быть уникальными')
+                raise serializers.ValidationError(
+                    {'ingredients': 'ингредиенты должны быть уникальными'})
             ingredient_list.append(ingredient)
             if int(ingredient_item['amount']) < 0:
-                raise serializers.ValidationError({
-                    'ingredients': ('Убедитесь, что значение количества '
-                                    'ингредиента больше 0')
-                })
+                raise serializers.ValidationError(
+                    {'ingredients': 'Количества ингредиента должно быть больше 0'})
         data['ingredients'] = ingredients
+
+        tags = self.data.get('tags')
+        tags_set = set([value for value in tags])
+        if len(tags) > len(tags_set):
+            raise serializers.ValidationError(
+                {'tags': 'Тэги должны быть уникальны'})
+
+        cooking_time = self.data.get('cooking_time')
+        if cooking_time < 0:
+            raise serializers.ValidationError(
+                {'cooking_time': 'Время приготовления не может быть отрицательным'})
+
         return data
 
     def create_ingredients(self, ingredients, recipe):
@@ -103,7 +114,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         image = validated_data.pop('image')
         ingredients_data = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(image=image, **validated_data)
-        tags_data = self.initial_data.get('tags')
+        tags_data = self.validated_data.get('tags')
         recipe.tags.set(tags_data)
         self.create_ingredients(ingredients_data, recipe)
         return recipe
@@ -112,16 +123,17 @@ class RecipeSerializer(serializers.ModelSerializer):
         instance.image = validated_data.get('image', instance.image)
         instance.name = validated_data.get('name', instance.name)
         instance.text = validated_data.get('text', instance.text)
-        instance.cooking_time = validated_data.get(
-            'cooking_time', instance.cooking_time
-        )
+        instance.cooking_time = validated_data.get('cooking_time',
+                                                   instance.cooking_time)
         instance.tags.clear()
-        tags_data = self.initial_data.get('tags')
+        tags_data = self.validated_data.get('tags')
         instance.tags.set(tags_data)
-        IngredientRecipe.objects.filter(recipe=instance).all().delete()
+
+        IngredientRecipe.objects.filter(recipe=instance).delete()
         self.create_ingredients(validated_data.get('ingredients'), instance)
-        instance.save()
-        return instance
+        # instance.save()
+        # return instance
+        return super().update(instance, validated_data)
 
 
 class CropRecipeSerializer(serializers.ModelSerializer):
@@ -166,8 +178,3 @@ class FollowSerializer(serializers.ModelSerializer):
 
     def get_recipes_count(self, obj):
         return Recipe.objects.filter(author=obj.author).count()
-
-
-
-
-
