@@ -1,4 +1,3 @@
-from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
@@ -103,7 +102,6 @@ class Recipe(models.Model):
         verbose_name='Картинка'
     )
 
-
     class Meta:
         ordering = ['-id']
         verbose_name = 'Рецепт'
@@ -129,7 +127,7 @@ class IngredientRecipe(models.Model):
         validators=(
             validators.MinValueValidator(
                 1, message='Минимальное количество ингредиентов 1'),),
-            verbose_name='Количество',
+        verbose_name='Количество',
     )
 
     class Meta:
@@ -214,4 +212,3 @@ class Follow(models.Model):
                 name='unique follow',
             )
         ]
-

@@ -72,7 +72,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             cart__user=user, id=obj.id).exists()
 
     def validate(self, data):
-        ingredients = self.data.get('ingredients')
+        ingredients = self.data['ingredients']
         if not ingredients:
             raise serializers.ValidationError(
                 {'ingredients': 'Нужен хоть один ингредиент для рецепта'})
@@ -87,15 +87,14 @@ class RecipeSerializer(serializers.ModelSerializer):
             if int(ingredient_item['amount']) < 0:
                 raise serializers.ValidationError(
                     {'ingredients': 'Количества ингредиента должно быть больше 0'})
-        data['ingredients'] = ingredients
 
-        tags = self.data.get('tags')
-        tags_set = set([value for value in tags])
+        tags = self.data['tags']
+        tags_set = set(tags)
         if len(tags) > len(tags_set):
             raise serializers.ValidationError(
                 {'tags': 'Тэги должны быть уникальны'})
 
-        cooking_time = self.data.get('cooking_time')
+        cooking_time = self.data['cooking_time']
         if cooking_time < 0:
             raise serializers.ValidationError(
                 {'cooking_time': 'Время приготовления не может быть отрицательным'})
@@ -114,25 +113,17 @@ class RecipeSerializer(serializers.ModelSerializer):
         image = validated_data.pop('image')
         ingredients_data = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(image=image, **validated_data)
-        tags_data = self.validated_data.get('tags')
+        tags_data = self.validated_data['tags']
         recipe.tags.set(tags_data)
         self.create_ingredients(ingredients_data, recipe)
         return recipe
 
     def update(self, instance, validated_data):
-        instance.image = validated_data.get('image', instance.image)
-        instance.name = validated_data.get('name', instance.name)
-        instance.text = validated_data.get('text', instance.text)
-        instance.cooking_time = validated_data.get('cooking_time',
-                                                   instance.cooking_time)
         instance.tags.clear()
         tags_data = self.validated_data.get('tags')
         instance.tags.set(tags_data)
-
         IngredientRecipe.objects.filter(recipe=instance).delete()
         self.create_ingredients(validated_data.get('ingredients'), instance)
-        # instance.save()
-        # return instance
         return super().update(instance, validated_data)
 
 
