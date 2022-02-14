@@ -1,22 +1,14 @@
-from django.contrib.auth import get_user_model
 from djoser.serializers import UserSerializer, UserCreateSerializer
-from recipes.models import Recipe, Follow
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+
+from recipes.models import Recipe, Follow
 
 User = get_user_model()
 
 
 class SpecialUserCreateSerializer(UserCreateSerializer):
-    # class Meta:
-    #     model = User
-    #     fields = (
-    #         "email",
-    #         "username",
-    #         "password",
-    #         "first_name",
-    #         "last_name",
-    #     )
     email = serializers.EmailField(
         validators=[UniqueValidator(queryset=User.objects.all())])
     username = serializers.CharField(
@@ -53,10 +45,8 @@ class UserRecipeSerializer(UserSerializer):
         fields = (
             "email",
             "id",
-            # "username",
             "first_name",
             "last_name",
-            # "is_subscribed",
             'recipes'
         )
 
@@ -75,7 +65,3 @@ class SpecialUserSerializer(UserSerializer):
         if user.is_anonymous:
             return False
         return Follow.objects.filter(user=user, author=obj.id).exists()
-
-
-
-
