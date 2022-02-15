@@ -72,7 +72,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             cart__user=user, id=obj.id).exists()
 
     def validate(self, data):
-        ingredients = self.validated_data.ingredients
+        ingredients = data.ingredients
         if not ingredients:
             raise serializers.ValidationError(
                 {'ingredients': 'Нужен хоть один ингредиент для рецепта'})
@@ -88,13 +88,13 @@ class RecipeSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     {'ingredients': 'Количества ингредиента должно быть больше 0'})
 
-        tags = self.validated_data.tags
+        tags = data.tags
         tags_set = set(tags)
         if len(tags) > len(tags_set):
             raise serializers.ValidationError(
                 {'tags': 'Тэги должны быть уникальны'})
 
-        cooking_time = self.validated_data.cooking_time
+        cooking_time = data.cooking_time
         if cooking_time < 0:
             raise serializers.ValidationError(
                 {'cooking_time': 'Время приготовления не может быть отрицательным'})
