@@ -99,7 +99,8 @@ class Recipe(models.Model):
     )
     image = models.ImageField(
         upload_to='recipes/',
-        verbose_name='Картинка'
+        verbose_name='Картинка',
+        blank=True
     )
 
     class Meta:
@@ -126,7 +127,7 @@ class IngredientRecipe(models.Model):
     amount = models.PositiveIntegerField(
         validators=(
             validators.MinValueValidator(
-                1, message='Минимальное количество ингредиентов 1'),),
+                1, message='Минимальное количество ингредиента 1'),),
         verbose_name='Количество',
     )
 
