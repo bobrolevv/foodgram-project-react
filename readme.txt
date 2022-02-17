@@ -2,3 +2,5 @@
 
 установка docker
 curl -sSL https://get.docker.com/ | sh
+
+python -m pip install --upgrade pip
