@@ -137,4 +137,3 @@ DJOSER = {
                     'user_create': 'users.serializers.SpecialUserCreateSerializer',
                     }
 }
-
