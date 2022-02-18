@@ -4,6 +4,7 @@ from django.core.management.base import BaseCommand
 
 from recipes.models import Ingredient, Recipe, User, Follow
 
+
 class Command(BaseCommand):
     help = 'Load ingredient data to DB'
 
@@ -13,7 +14,8 @@ class Command(BaseCommand):
             reader = csv.reader(f)
             for row in reader:
                 name, unit = row
-                Ingredient.objects.get_or_create(name=name, measurement_unit=unit)
+                Ingredient.objects.get_or_create(name=name,
+                                                 measurement_unit=unit)
             print(f'add {Ingredient.objects.count()} ingredients')
 
         for i in range(User.objects.count(), User.objects.count() + 10):
@@ -31,7 +33,7 @@ class Command(BaseCommand):
             Recipe.objects.get_or_create(
                 name=f'Простой рецепт{i}',
                 text=f'Описание этого рецепта {i}',
-                image='/img/recipes/1620120965_28-phonoteka_org-p-obed-fon-42_I8sBQcf.jpg',
+                image='/img/recipes/123.jpg',
                 cooking_time=i,
                 author=author
             )

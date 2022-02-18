@@ -88,7 +88,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         height = 750
 
         for item in ingredients:
-            page.drawString(75, height, (f'{item[0]}: {item[2]} {item[1]}'))
+            page.drawString(75, height, f'{item[0]}: {item[2]} {item[1]}')
             height -= 25
         page.showPage()
         page.save()

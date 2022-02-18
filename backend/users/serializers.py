@@ -17,7 +17,8 @@ class SpecialUserCreateSerializer(UserCreateSerializer):
     class Meta:
         model = User
         fields = (
-            'email', 'id', 'password', 'username', 'first_name', 'last_name')
+            'email', 'id', 'password',
+            'username', 'first_name', 'last_name')
         extra_kwargs = {
             'email': {'required': True},
             'username': {'required': True},
@@ -25,6 +26,7 @@ class SpecialUserCreateSerializer(UserCreateSerializer):
             'first_name': {'required': True},
             'last_name': {'required': True},
         }
+
 
 class SubsriptionRecipeSerializer(serializers.ModelSerializer):
     class Meta:

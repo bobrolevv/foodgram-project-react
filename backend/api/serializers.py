@@ -2,7 +2,7 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
 from recipes.models import (Ingredient, IngredientRecipe,
-                            Recipe,Tag,
+                            Recipe, Tag,
                             Follow, Favorite, Cart)
 from users.serializers import SpecialUserSerializer
 
@@ -33,6 +33,7 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
             'measurement_unit',
             'amount'
         )
+
 
 class IngredientAmountCreateSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(
