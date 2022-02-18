@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get('SECRET_KEY',  get_random_secret_key())
 
-DEBUG = os.environ.get("DEBUG", default=True)
+DEBUG = os.environ.get("DEBUG", default=False)
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*')
 
@@ -65,21 +65,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
+        'NAME': os.environ.get('POSTGRES_DB', default='foodgrm_db'),
+        'USER': os.environ.get('POSTGRES_USER', default='postgres'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='postgres'),
+        'HOST': os.environ.get('DB_HOST', default='db'),
+        'PORT': os.environ.get('DB_PORT', default='5432'),
+
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': os.environ.get('DB_ENGINE', default='django.db.backends.postgresql'),
-#         'NAME': os.environ.get('POSTGRES_DB', default='foodgrm_db'),
-#         'USER': os.environ.get('POSTGRES_USER', default='postgres'),
-#         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='postgres'),
-#         'HOST': os.environ.get('DB_HOST', default='db'),
-#         'PORT': os.environ.get('DB_PORT', default='5432'),
-#
-#     }
-# }
 
 
 AUTH_PASSWORD_VALIDATORS = [

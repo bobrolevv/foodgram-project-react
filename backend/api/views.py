@@ -15,15 +15,34 @@ from recipes.models import (Recipe, Ingredient, Tag, Favorite,
 from .filters import AuthorAndTagFilter, IngredientSearchFilter
 from .permissions import IsAuthorOrReadOnly, IsAdminOrReadOnly
 from .serializers import (RecipeSerializer, IngredientSerializer,
-                          TagSerializer, CropRecipeSerializer)
+                          TagSerializer,
+                          CropRecipeSerializer,
+                          RecipeCreateSerializer
+                          )
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
-    serializer_class = RecipeSerializer
     pagination_class = PageNumberPagination
     filter_class = AuthorAndTagFilter
     permission_classes = [IsAuthorOrReadOnly]
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST' or self.request.method == 'PATCH':
+            return RecipeCreateSerializer
+        return RecipeSerializer
+
+    def get_queryset(self):
+        queryset = Recipe.objects.all()
+        user = self.request.user
+        is_favorited = self.request.query_params.get('is_favorited')
+        is_in_shopping_cart = self.request.query_params.get(
+            'is_in_shopping_cart')
+        if is_favorited == '1':
+            queryset = queryset.filter(favoriting__user=user)
+        if is_in_shopping_cart == '1':
+            queryset = queryset.filter(recipe_in_cart__user=user)
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
