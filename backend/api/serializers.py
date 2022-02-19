@@ -124,7 +124,6 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             )
         return recipe
 
-
     def update(self, instance, validated_data):
         if 'ingredients' in validated_data:
             instance.ingredients.clear()
