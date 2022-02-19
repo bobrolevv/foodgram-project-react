@@ -39,7 +39,8 @@ class IngredientAmountSerializer(serializers.ModelSerializer):
 
 class IngredientAmountCreateSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(
-        queryset=Ingredient.objects.all(), required=True,
+        queryset=Ingredient.objects.all(),
+        required=True,
         source='ingredient.id'
     )
 
@@ -93,13 +94,9 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
     ingredients = IngredientAmountCreateSerializer(
-        source='ingredientrecipe_set',
-        many=True
-    )
+        source='ingredientrecipe_set', many=True)
     tags = serializers.PrimaryKeyRelatedField(
-        queryset=Tag.objects.all(),
-        many=True
-    )
+        queryset=Tag.objects.all(), many=True)
     image = Base64ImageField(required=False)
 
     class Meta:
@@ -114,10 +111,9 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        author = self.context['request'].user
         tags = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredientrecipe_set')
-        recipe = Recipe.objects.create(**validated_data, author=author)
+        recipe = Recipe.objects.create(**validated_data)
         for tag in tags:
             recipe.tags.add(tag)
         for ingredient in ingredients:
@@ -128,20 +124,18 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             )
         return recipe
 
+
     def update(self, instance, validated_data):
-        if 'ingredientrecipe_set' in validated_data:
+        if 'ingredients' in validated_data:
             instance.ingredients.clear()
-            ingredients = validated_data.pop('ingredientrecipe_set')
+            ingredients = validated_data.pop('ingredients')
             for ingredient in ingredients:
                 current_ingredient = ingredient['ingredient']['id']
                 IngredientRecipe.objects.create(
-                    ingredient=current_ingredient, recipe=instance,
+                    ingredient=current_ingredient,
+                    recipe=instance,
                     amount=ingredient['amount']
                 )
-        if 'tags' in validated_data:
-            instance.tags.set(validated_data.get('tags'))
-        if 'name' in validated_data:
-            instance.name = validated_data.get('name', instance.name)
         if 'text' in validated_data:
             instance.text = validated_data.get('text', instance.text)
         if 'image' in validated_data:
@@ -149,8 +143,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         if 'cooking_time' in validated_data:
             instance.cooking_time = validated_data.get(
                 'cooking_time', instance.cooking_time)
-        instance.save()
-        return instance
+        super().update(instance, validated_data)
 
 
 class CropRecipeSerializer(serializers.ModelSerializer):

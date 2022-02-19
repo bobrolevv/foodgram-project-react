@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = os.environ.get('SECRET_KEY', get_random_secret_key())
 
-DEBUG = os.environ.get("DEBUG", default=False)
+DEBUG = os.environ.get("DEBUG", default=True)
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*')
 
@@ -63,6 +63,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('DB_ENGINE',
@@ -72,7 +73,6 @@ DATABASES = {
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='postgres'),
         'HOST': os.environ.get('DB_HOST', default='db'),
         'PORT': os.environ.get('DB_PORT', default='5432'),
-
     }
 }
 

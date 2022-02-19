@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.core import validators
 from django.db import models
 
@@ -6,23 +7,12 @@ User = get_user_model()
 
 
 class Ingredient(models.Model):
-    name = models.CharField(
-        max_length=256,
-        verbose_name='Название ингредиента'
-    )
-    measurement_unit = models.CharField(
-        max_length=64,
-        verbose_name='Единица измерения'
-    )
+    name = models.CharField('Название', max_length=200)
+    measurement_unit = models.CharField('Единица измерения', max_length=200)
 
     class Meta:
-        ordering = ['-id']
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
-        constraints = [
-            models.UniqueConstraint(fields=['name', 'measurement_unit'],
-                                    name='unique ingredient')
-        ]
 
     def __str__(self):
         return f'{self.name}, {self.measurement_unit}'
@@ -113,31 +103,31 @@ class Recipe(models.Model):
 
 
 class IngredientRecipe(models.Model):
-    ingredient = models.ForeignKey(
-        Ingredient,
-        on_delete=models.CASCADE,
-        verbose_name='ингредиент',
-    )
     recipe = models.ForeignKey(
-        Recipe,
-        on_delete=models.CASCADE,
-        verbose_name='Рецепт',
-    )
-    amount = models.PositiveIntegerField(
-        validators=(
-            validators.MinValueValidator(
-                1, message='Минимальное количество ингредиента 1'),),
-        verbose_name='Количество',
-    )
+        Recipe, on_delete=models.CASCADE, verbose_name='Рецепт')
+    ingredient = models.ForeignKey(
+        Ingredient, on_delete=models.CASCADE, verbose_name='Ингредиент')
+    amount = models.PositiveIntegerField('Количество ингредиента')
 
     class Meta:
-        ordering = ['-id']
-        verbose_name = 'Количество ингредиента'
-        verbose_name_plural = 'Количество ингредиентов'
+        verbose_name = 'Связь "Ингредиент - Рецепт"'
+        verbose_name_plural = 'Связи "Ингредиент - Рецепт"'
         constraints = [
-            models.UniqueConstraint(fields=['ingredient', 'recipe'],
-                                    name='unique ingredients recipe')
+            models.UniqueConstraint(
+                fields=['recipe', 'ingredient'],
+                name='unique_recipe_ingredient'
+            )
         ]
+
+    def clean(self):
+        error_dict = {}
+        if self.amount <= 0:
+            error_dict['amount'] = 'Строго больше 0!'
+        if error_dict:
+            raise ValidationError(error_dict)
+
+    def __str__(self):
+        return f'{self.recipe}, {self.ingredient}, {self.amount}'
 
 
 class Favorite(models.Model):
