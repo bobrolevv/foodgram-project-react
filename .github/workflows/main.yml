@@ -58,7 +58,7 @@ jobs:
         passphrase: ${{ secrets.S_PASSPHRASE }} # Если ваш ssh-ключ защищён фразой-паролем
         script: |
           # Выполняет pull образа с DockerHub
-          sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-backend
+          sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-backend:v1
 #          остановка всех контейнеров
 #          sudo docker stop $(sudo docker ps -a -q)
 #          sudo docker run --rm -d -p 5000:5000 <имя-пользователя>/<имя-репозитория>
