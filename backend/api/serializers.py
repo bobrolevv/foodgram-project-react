@@ -110,38 +110,34 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             'cooking_time'
         )
 
+    def create_ingrediens(self, ingredients, recipe):
+        for ingredient in ingredients:
+            current_ingredient = ingredient['ingredient']['id']
+            IngredientRecipe.objects.create(
+                ingredient=current_ingredient,
+                recipe=recipe,
+                amount=ingredient['amount']
+            )
+
     def create(self, validated_data):
         tags = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredientrecipe_set')
         recipe = Recipe.objects.create(**validated_data)
+        self.create_ingrediens(ingredients, recipe)
+        recipe.tags.set(tags)
         for tag in tags:
             recipe.tags.add(tag)
-        for ingredient in ingredients:
-            current_ingredient = ingredient['ingredient']['id']
-            IngredientRecipe.objects.create(
-                ingredient=current_ingredient, recipe=recipe,
-                amount=ingredient['amount']
-            )
         return recipe
 
     def update(self, instance, validated_data):
         if 'ingredients' in validated_data:
             instance.ingredients.clear()
             ingredients = validated_data.pop('ingredients')
-            for ingredient in ingredients:
-                current_ingredient = ingredient['ingredient']['id']
-                IngredientRecipe.objects.create(
-                    ingredient=current_ingredient,
-                    recipe=instance,
-                    amount=ingredient['amount']
-                )
-        if 'text' in validated_data:
-            instance.text = validated_data.get('text', instance.text)
-        if 'image' in validated_data:
-            instance.image = validated_data.get('image', instance.image)
-        if 'cooking_time' in validated_data:
-            instance.cooking_time = validated_data.get(
-                'cooking_time', instance.cooking_time)
+            self.create_ingrediens(ingredients, instance)
+        if 'tags' in validated_data:
+            instance.tags.clear()
+            tags = validated_data.pop('tags')
+            instance.tags.set(tags)
         super().update(instance, validated_data)
 
 
