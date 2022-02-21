@@ -2,7 +2,8 @@ version: '3.3'
 services:
 
   frontend:
-    image: bobrolevv/foodgram_frontend:1.0
+    image: xewus/foodgram_front:latest
+#    image: bobrolevv/foodgram_frontend:1.0
 #    build:
 #      context: ../frontend
 #      dockerfile: Dockerfile
@@ -19,12 +20,12 @@ services:
       - frontend
 
   web:
-    image: bobrolevv/foodgram-backend
-#    build:
-#      context: ../backend
-#      dockerfile: Dockerfile
-#    ports:
-#      - "8000:8000"
+#    image: bobrolevv/foodgram-backend
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
     depends_on:
       - db
       - frontend

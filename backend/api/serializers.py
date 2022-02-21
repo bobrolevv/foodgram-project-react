@@ -138,8 +138,9 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             instance.tags.clear()
             tags = validated_data.pop('tags')
             instance.tags.set(tags)
+        instance.save()
         super().update(instance, validated_data)
-
+        # return instance
 
 class CropRecipeSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
