@@ -130,17 +130,48 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         return recipe
 
     def update(self, instance, validated_data):
-        if 'ingredients' in validated_data:
+        # if 'ingredients' in validated_data:
+        #     instance.ingredients.clear()
+        #     ingredients = validated_data.pop('ingredients')
+        #     self.create_ingrediens(ingredients, instance)
+        # if 'tags' in validated_data:
+        #     instance.tags.clear()
+        #     tags = validated_data.pop('tags')
+        #     instance.tags.set(tags)
+        # instance.save()
+        # super().update(instance, validated_data)
+        # # return instance
+
+        if 'ingredientinrecipe_set' in validated_data:
             instance.ingredients.clear()
-            ingredients = validated_data.pop('ingredients')
-            self.create_ingrediens(ingredients, instance)
+            ingredients = validated_data.pop('ingredientinrecipe_set')
+            for ingredient in ingredients:
+                current_ingredient = ingredient['ingredient']['id']
+                IngredientRecipe.objects.create(
+                    ingredient=current_ingredient, recipe=instance,
+                    amount=ingredient['amount']
+                )
         if 'tags' in validated_data:
-            instance.tags.clear()
-            tags = validated_data.pop('tags')
-            instance.tags.set(tags)
+            instance.tags.set(validated_data.get('tags'))
+        if 'name' in validated_data:
+            instance.name = validated_data.get('name', instance.name)
+        if 'text' in validated_data:
+            instance.text = validated_data.get('text', instance.text)
+        if 'image' in validated_data:
+            instance.image = validated_data.get('image', instance.image)
+        if 'cooking_time' in validated_data:
+            instance.cooking_time = validated_data.get(
+                'cooking_time', instance.cooking_time)
         instance.save()
-        super().update(instance, validated_data)
-        # return instance
+
+        # super().update(instance, validated_data)
+        # AssertionError: The `.update()` method does not support writable
+        # nested fields by default. Write an explicit `.update()` method
+        # for serializer `api.serializers.RecipeCreateSerializer`,
+        # or set `read_only=True` on nested serializer fields.
+
+        return instance
+
 
 class CropRecipeSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
