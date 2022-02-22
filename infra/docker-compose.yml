@@ -15,16 +15,16 @@ services:
       - ./.env
 
   backend:
-#    image: bobrolevv/foodgram_backend:latest
+    image: bobrolevv/foodgram_backend:latest
 #    restart: always
 
-#    command: >
-#      bash -c "python manage.py migrate &&
-#      python manage.py collectstatic --noinput &&
-#      gunicorn --bind 0:8000 foodgram.wsgi"
-    build:
-      context: ../backend
-      dockerfile: Dockerfile
+    command: >
+      bash -c "python manage.py migrate &&
+      python manage.py collectstatic --noinput &&
+      gunicorn --bind 0:8000 foodgram.wsgi"
+#    build:
+#      context: ../backend
+#      dockerfile: Dockerfile
 
     volumes:
       - static_value:/app/static/
