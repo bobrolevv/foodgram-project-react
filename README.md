@@ -94,9 +94,9 @@ sudo docker-compose up -d --build
     sudo docker-compose exec backend python manage.py migrate --noinput
     ```
     - Загрузите ингридиенты  в базу данных (необязательно):  
-    *Если файл не указывать, по умолчанию выберется ingredients.json*
+    
     ```
-    sudo docker-compose exec backend python manage.py load_ingredients <Название файла из директории data>
+    sudo docker-compose exec backend python manage.py load_data 
     ```
     - Создать суперпользователя Django:
     ```
@@ -105,4 +105,5 @@ sudo docker-compose up -d --build
     - Проект будет доступен по вашему IP
 
 ## Проект в интернете
-Проект запущен и доступен по [адресу]1
+Проект запущен и доступен по [51.250.15.254]
+логин/пароль/почта админа: adm/123/a@d.mi
