@@ -107,3 +107,5 @@ sudo docker-compose up -d --build
 ## Проект в интернете
 Проект запущен и доступен по [130.193.48.248]
 логин/пароль/почта админа: adm/123/a@d.mi
+
+автор: https://github.com/bobrolevv/
