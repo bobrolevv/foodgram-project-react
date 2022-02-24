@@ -34,7 +34,8 @@ class OneOfTwoValidator:
     first_regex = '[^а-яёА-ЯЁ]+'
     second_regex = '[^a-zA-Z]+'
     message = (
-        'Переданное значение на разных языках либо содержит что-то кроме букв.'
+        'Переданное значение на разных языках либо содержит что-то кроме '
+        'букв. В username допустимы только буквы.'
     )
 
     def __init__(self, first_regex=None, second_regex=None, message=None):
