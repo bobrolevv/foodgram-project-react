@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import F
 
 from drf_extra_fields.fields import Base64ImageField
+from rest_framework.validators import UniqueTogetherValidator
 
 from recipes.models import Ingredient, Recipe, Tag
 
@@ -49,6 +50,15 @@ class UserSerializer(ModelSerializer):
         )
         extra_kwargs = {'password': {'write_only': True}}
         read_only_fields = 'is_subscribed',
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=User.objects.all(),
+                fields=['username', 'email'],
+                message='такой username уже существует'
+            )
+        ]
+
 
     def get_is_subscribed(self, obj):
         """
