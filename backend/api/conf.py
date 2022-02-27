@@ -97,5 +97,5 @@ USERS_HELP_UNAME = (
 
 # help-text для first_name/last_name
 USERS_HELP_FNAME = (
-    f'Обязательно для заполнения.Максимум {MAX_LEN_USERS_CHARFIELD} букв.'
+    f'Обязательно для заполнения. Максимум {MAX_LEN_USERS_CHARFIELD} букв.'
 )

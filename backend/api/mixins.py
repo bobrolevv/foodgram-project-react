@@ -6,7 +6,8 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework.response import Response
 from rest_framework.status import (HTTP_201_CREATED, HTTP_204_NO_CONTENT,
-                                   HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED)
+                                   HTTP_400_BAD_REQUEST,
+                                   HTTP_401_UNAUTHORIZED)
 
 from . import conf
 
@@ -40,7 +41,8 @@ class AddDelViewMixin:
         """Добавляет/удаляет связь через менеджер `model.many-to-many`.
 
         Доступные для работы менеджеры-М2М должны быть внесены в словарь
-        `menegers` откуда будут вызываться в зависимости от переданного ключа.
+        `menegers` откуда будут вызываться в зависимости от переданного
+        ключа.
 
         Args:
             obj_id(int):
