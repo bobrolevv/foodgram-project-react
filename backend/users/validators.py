@@ -85,25 +85,25 @@ class MinLenValidator:
             raise ValidationError(self.message)
 
 
-@deconstructible
-class UserIsExistValidator:
-    """Проверяет username на существование.
-
-    Args:
-        message(str):
-            Сообщение, выводимое при передаче уже существующего username.
-
-    Raises:
-        ValidationError:
-            Такой пользователь уже существует.
-    """
-
-    message = 'Такой пользователь уже существует.'
-
-    def __init__(self, message=None):
-        if message is not None:
-            self.message = message
-
-    def __call__(self, value):
-        if User.objects.filter(username=value).exist():
-            raise ValidationError(self.message)
+# @deconstructible
+# class UserIsExistValidator:
+#     """Проверяет username на существование.
+#
+#     Args:
+#         message(str):
+#             Сообщение, выводимое при передаче уже существующего username.
+#
+#     Raises:
+#         ValidationError:
+#             Такой пользователь уже существует.
+#     """
+#
+#     message = 'Такой пользователь уже существует.'
+#
+#     def __init__(self, message=None):
+#         if message is not None:
+#             self.message = message
+#
+#     def __call__(self, value):
+#         if User.objects.filter(username=value).exist():
+#             raise ValidationError(self.message)
