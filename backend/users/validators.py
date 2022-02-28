@@ -2,8 +2,11 @@
 """
 from re import compile
 
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
+
+User = get_user_model()
 
 
 @deconstructible
@@ -34,8 +37,7 @@ class OneOfTwoValidator:
     first_regex = '[^а-яёА-ЯЁ]+'
     second_regex = '[^a-zA-Z]+'
     message = (
-        'Переданное значение на разных языках либо содержит что-то кроме '
-        'букв. В username допустимы только буквы.'
+        'В username допустимы только буквы.'
     )
 
     def __init__(self, first_regex=None, second_regex=None, message=None):
@@ -50,7 +52,8 @@ class OneOfTwoValidator:
         self.second_regex = compile(self.second_regex)
 
     def __call__(self, value):
-        if self.first_regex.search(value) and self.second_regex.search(value):
+        if (self.first_regex.search(value) and
+                self.second_regex.search(value)):
             raise ValidationError(self.message)
 
 
@@ -80,4 +83,28 @@ class MinLenValidator:
 
     def __call__(self, value):
         if len(value) < self.min_len:
+            raise ValidationError(self.message)
+
+
+@deconstructible
+class UserIsExistValidator:
+    """Проверяет username на существование.
+
+    Args:
+        message(str):
+            Сообщение, выводимое при передаче уже существующего username.
+
+    Raises:
+        ValidationError:
+            Такой пользователь уже существует.
+    """
+
+    message = 'Такой пользователь уже существует.'
+
+    def __init__(self, message=None):
+        if message is not None:
+            self.message = message
+
+    def __call__(self, value):
+        if User.objects.filter(username=value).exist():
             raise ValidationError(self.message)
