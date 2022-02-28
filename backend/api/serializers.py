@@ -60,7 +60,6 @@ class UserSerializer(ModelSerializer):
             )
         ]
 
-
     def get_is_subscribed(self, obj):
         """
         Определяет - подписан ли текущий пользователь
