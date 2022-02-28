@@ -52,8 +52,7 @@ class OneOfTwoValidator:
         self.second_regex = compile(self.second_regex)
 
     def __call__(self, value):
-        if (self.first_regex.search(value) and
-                self.second_regex.search(value)):
+        if self.first_regex.search(value) and self.second_regex.search(value):
             raise ValidationError(self.message)
 
 
