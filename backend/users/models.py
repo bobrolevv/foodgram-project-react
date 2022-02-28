@@ -59,10 +59,10 @@ class MyUser(AbstractUser):
         max_length=conf.MAX_LEN_USERS_CHARFIELD,
         unique=True,
         help_text=(conf.USERS_HELP_UNAME),
-        validators=(
-            MinLenValidator(min_len=conf.MIN_USERNAME_LENGTH),
-            OneOfTwoValidator(), UserIsExistValidator(),
-        ),
+        # validators=(
+        #     MinLenValidator(min_len=conf.MIN_USERNAME_LENGTH),
+        #     OneOfTwoValidator(), UserIsExistValidator(),
+        # ),
     )
     first_name = CharField(
         verbose_name='Имя',
