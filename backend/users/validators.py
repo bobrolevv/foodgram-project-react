@@ -2,11 +2,11 @@
 """
 from re import compile
 
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 
-User = get_user_model()
+# User = get_user_model()
 
 
 @deconstructible

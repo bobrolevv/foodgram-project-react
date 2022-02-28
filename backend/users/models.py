@@ -12,8 +12,8 @@ from django.db.models import (CharField, CheckConstraint, EmailField,
 from django.db.models.functions import Length
 from django.utils.translation import gettext_lazy as _
 
-from .validators import (MinLenValidator, OneOfTwoValidator,
-                         UserIsExistValidator)
+# from .validators import (MinLenValidator, OneOfTwoValidator,
+#                          UserIsExistValidator)
 
 CharField.register_lookup(Length)
 
