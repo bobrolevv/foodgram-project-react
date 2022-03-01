@@ -51,6 +51,9 @@ scp nginx.conf <username>@<host>:/home/<username>/nginx.conf
     DB_HOST=<db>
     DB_PORT=<5432>
     SECRET_KEY=<секретный ключ проекта django>
+    DEBUG='False'
+    ALLOWED_HOSTS='localhost, 127.0.0.1, <Your_host>'
+    CSRF_TRUSTED_ORIGINS='http://localhost, http://127.0.0.1, http://<Your_host>'
     ```
 * Для работы с Workflow добавьте в Secrets GitHub переменные окружения для работы:
     ```
@@ -105,7 +108,7 @@ sudo docker-compose up -d --build
     - Проект будет доступен по вашему IP
 
 ## Проект в интернете
-Проект запущен и доступен по [178.154.201.8]
+Проект запущен и доступен по [178.154.222.62]
 логин/пароль/почта админа: adm/123/a@d.mi
 
 автор: https://github.com/bobrolevv/

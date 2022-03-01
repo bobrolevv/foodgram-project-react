@@ -2,7 +2,7 @@ import csv
 
 from django.core.management.base import BaseCommand
 
-from recipes.models import Ingredient, Recipe, User, Follow
+from recipes.models import Ingredient, Recipe, User
 
 
 class Command(BaseCommand):
@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        with open('./recipes/data/ingredients.csv', encoding='utf-8') as f:
+        with open('./data/ingredients.csv', encoding='utf-8') as f:
             reader = csv.reader(f)
             for row in reader:
                 name, unit = row
@@ -39,11 +39,3 @@ class Command(BaseCommand):
             )
         print(f'add {i} recipes')
 
-        user = User.objects.get(id='1')
-        for i in range(5):
-            author = User.objects.get(id=f'{i+1}')
-            Follow.objects.get_or_create(
-                user=user,
-                author=author
-            )
-        print(f'add {i} subsriptions')
