@@ -2,11 +2,8 @@
 """
 from re import compile
 
-# from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
-
-# User = get_user_model()
 
 
 @deconstructible
@@ -83,27 +80,3 @@ class MinLenValidator:
     def __call__(self, value):
         if len(value) < self.min_len:
             raise ValidationError(self.message)
-
-
-# @deconstructible
-# class UserIsExistValidator:
-#     """Проверяет username на существование.
-#
-#     Args:
-#         message(str):
-#             Сообщение, выводимое при передаче уже существующего username.
-#
-#     Raises:
-#         ValidationError:
-#             Такой пользователь уже существует.
-#     """
-#
-#     message = 'Такой пользователь уже существует.'
-#
-#     def __init__(self, message=None):
-#         if message is not None:
-#             self.message = message
-#
-#     def __call__(self, value):
-#         if User.objects.filter(username=value).exist():
-#             raise ValidationError(self.message)
